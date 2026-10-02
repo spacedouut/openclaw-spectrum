@@ -5,16 +5,18 @@ import {
 } from "openclaw/plugin-sdk/channel-core";
 import { PAIRING_APPROVED_MESSAGE } from "openclaw/plugin-sdk/channel-status";
 import { chunkTextForOutbound } from "openclaw/plugin-sdk/text-chunking";
-import {
-  DEFAULT_ACCOUNT_ID,
-  listSpectrumAccountIds,
-  resolveDefaultSpectrumAccountId,
-  resolveSpectrumAccount,
-} from "./accounts.js";
+import { DEFAULT_ACCOUNT_ID } from "./accounts.js";
 import { spectrumChannelConfigSchema } from "./config-schema.js";
-import { CHANNEL_ID, CHANNEL_LABEL } from "./constants.js";
+import { CHANNEL_ID } from "./constants.js";
 import { startSpectrumGatewayAccount } from "./gateway.js";
 import { sendSpectrumMessage } from "./send.js";
+import {
+  spectrumCapabilities,
+  spectrumConfigAdapter,
+  spectrumMeta,
+  spectrumSetupContract,
+  spectrumSetupWizard,
+} from "./setup-surface.js";
 import { spectrumStatus } from "./status.js";
 import {
   inferSpectrumTargetChatType,
@@ -25,18 +27,6 @@ import {
 import type { CoreConfig, ResolvedSpectrumAccount } from "./types.js";
 
 const DEFAULT_TEXT_CHUNK_LIMIT = 4_000;
-
-export const spectrumMeta = {
-  id: CHANNEL_ID,
-  label: CHANNEL_LABEL,
-  selectionLabel: "Photon Spectrum (iMessage, Telegram, WhatsApp)",
-  detailLabel: "Spectrum",
-  docsPath: "/channels/spectrum",
-  docsLabel: "spectrum",
-  blurb: "iMessage, Telegram, and WhatsApp Business through Photon Spectrum.",
-  aliases: ["photon", "photon-spectrum"],
-  markdownCapable: true,
-};
 
 function pairingTarget(id: string): string {
   const target = parseSpectrumTarget(id);
@@ -50,24 +40,12 @@ export const spectrumPlugin: ChannelPlugin<ResolvedSpectrumAccount> = createChat
   base: {
     id: CHANNEL_ID,
     meta: spectrumMeta,
-    capabilities: {
-      chatTypes: ["direct", "group"],
-      media: true,
-    },
+    capabilities: spectrumCapabilities,
     reload: { configPrefixes: [`channels.${CHANNEL_ID}`] },
     configSchema: spectrumChannelConfigSchema,
-    config: {
-      listAccountIds: (cfg) => listSpectrumAccountIds(cfg as CoreConfig),
-      resolveAccount: (cfg, accountId) =>
-        resolveSpectrumAccount({ cfg: cfg as CoreConfig, accountId }),
-      defaultAccountId: (cfg) => resolveDefaultSpectrumAccountId(cfg as CoreConfig),
-      isConfigured: (account) => account.configured,
-      isEnabled: (account) => account.enabled,
-      resolveAllowFrom: ({ cfg, accountId }) =>
-        resolveSpectrumAccount({ cfg: cfg as CoreConfig, accountId }).config.allowFrom,
-      resolveDefaultTo: ({ cfg, accountId }) =>
-        resolveSpectrumAccount({ cfg: cfg as CoreConfig, accountId }).config.defaultTo,
-    },
+    config: spectrumConfigAdapter,
+    setupContract: spectrumSetupContract,
+    setupWizard: spectrumSetupWizard,
     messaging: {
       targetPrefixes: [CHANNEL_ID],
       normalizeTarget: normalizeSpectrumTarget,

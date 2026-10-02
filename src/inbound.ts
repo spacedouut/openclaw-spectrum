@@ -6,11 +6,8 @@ import { CHANNEL_ID, CHANNEL_LABEL } from "./constants.js";
 import { normalizeSpectrumContent, type SpectrumInboundAttachment } from "./normalize.js";
 import { rememberSpectrumSpace, type RunningSpectrumAccount } from "./registry.js";
 import { deliverToSpectrumSpace } from "./send.js";
-import {
-  formatSpectrumSenderKey,
-  normalizeSpectrumSenderKey,
-  resolveSpaceChatType,
-} from "./targets.js";
+import { resolveSpaceChatType } from "./space-chat-type.js";
+import { formatSpectrumSenderKey, normalizeSpectrumSenderKey } from "./targets.js";
 import type { CoreConfig, ResolvedSpectrumAccount } from "./types.js";
 
 export type SpectrumInboundLogger = {

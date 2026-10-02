@@ -1,4 +1,4 @@
 import { defineSetupPluginEntry } from "openclaw/plugin-sdk/channel-core";
-import { spectrumPlugin } from "./channel.js";
+import { spectrumSetupPlugin } from "./setup-surface.js";
 
-export default defineSetupPluginEntry(spectrumPlugin);
+export default defineSetupPluginEntry(spectrumSetupPlugin);

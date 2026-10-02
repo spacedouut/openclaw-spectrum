@@ -9,7 +9,9 @@ describe("plugin entry", () => {
   it("registers the spectrum channel", () => {
     expect(entry.id).toBe("spectrum");
     expect(entry.channelPlugin).toBe(spectrumPlugin);
-    expect(setupEntry.plugin).toBe(spectrumPlugin);
+    expect(setupEntry.plugin.id).toBe("spectrum");
+    expect(setupEntry.plugin.setupWizard).toBe(spectrumPlugin.setupWizard);
+    expect(setupEntry.plugin.setupContract).toBe(spectrumPlugin.setupContract);
     expect(spectrumPlugin.id).toBe("spectrum");
     expect(spectrumPlugin.capabilities.chatTypes).toEqual(["direct", "group"]);
   });
@@ -29,6 +31,14 @@ describe("plugin entry", () => {
     expect(manifest.id).toBe("spectrum");
     expect(manifest.channels).toEqual(["spectrum"]);
     expect(manifest.channelConfigs.spectrum.schema).toEqual(schema);
+  });
+
+  it("publishes the setup contract fields in package metadata", async () => {
+    const pkg = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8"));
+    expect(pkg.openclaw.channel.setup.fields).toEqual(spectrumPlugin.setupContract?.metadata.fields);
+    expect(pkg.openclaw.setupFeatures.configPromotion).toBe(
+      spectrumPlugin.setupContract?.configPromotion,
+    );
   });
 
   it("validates channel config", () => {
