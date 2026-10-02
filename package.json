@@ -71,7 +71,89 @@
         "photon",
         "photon-spectrum"
       ],
-      "markdownCapable": true
+      "markdownCapable": true,
+      "setup": {
+        "fields": [
+          {
+            "kind": "string",
+            "cli": {
+              "flags": "--project-id <id>",
+              "description": "Spectrum Cloud project ID"
+            },
+            "envVars": [
+              "SPECTRUM_PROJECT_ID"
+            ],
+            "key": "projectId"
+          },
+          {
+            "kind": "string",
+            "sensitive": true,
+            "cli": {
+              "flags": "--project-secret <secret>",
+              "description": "Spectrum Cloud project secret"
+            },
+            "envVars": [
+              "SPECTRUM_PROJECT_SECRET"
+            ],
+            "key": "projectSecret"
+          },
+          {
+            "kind": "string-list",
+            "cli": {
+              "flags": "--providers <list>",
+              "description": "Comma-separated Spectrum providers (imessage, telegram, whatsapp_business, slack)"
+            },
+            "key": "providers"
+          },
+          {
+            "kind": "string",
+            "sensitive": true,
+            "cli": {
+              "flags": "--telegram-bot-token <token>",
+              "description": "Telegram bot token from @BotFather"
+            },
+            "envVars": [
+              "SPECTRUM_TELEGRAM_BOT_TOKEN"
+            ],
+            "key": "telegramBotToken"
+          },
+          {
+            "kind": "string",
+            "sensitive": true,
+            "cli": {
+              "flags": "--whatsapp-access-token <token>",
+              "description": "WhatsApp Business Cloud API access token (self-hosted)"
+            },
+            "envVars": [
+              "SPECTRUM_WHATSAPP_BUSINESS_ACCESS_TOKEN"
+            ],
+            "key": "whatsappAccessToken"
+          },
+          {
+            "kind": "string",
+            "sensitive": true,
+            "cli": {
+              "flags": "--whatsapp-app-secret <secret>",
+              "description": "WhatsApp Business app secret for webhook signatures (self-hosted)"
+            },
+            "key": "whatsappAppSecret"
+          },
+          {
+            "kind": "string",
+            "cli": {
+              "flags": "--whatsapp-phone-number-id <id>",
+              "description": "WhatsApp Business phone number ID (self-hosted)"
+            },
+            "envVars": [
+              "SPECTRUM_WHATSAPP_BUSINESS_PHONE_NUMBER_ID"
+            ],
+            "key": "whatsappPhoneNumberId"
+          }
+        ]
+      }
+    },
+    "setupFeatures": {
+      "configPromotion": "preserve-root"
     },
     "compat": {
       "pluginApi": ">=2026.9.6",

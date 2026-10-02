@@ -22,6 +22,35 @@ cd openclaw-spectrum && npm install && npm run build
 openclaw plugins install --link .
 ```
 
+## Interactive setup
+
+```sh
+openclaw channels add            # pick "Photon Spectrum"
+openclaw channels add spectrum --account work
+```
+
+The wizard asks whether the account uses Spectrum Cloud (Photon project ID and secret;
+iMessage, Telegram, WhatsApp Business, Slack) or self-hosted provider credentials
+(Telegram, WhatsApp Business), which providers to enable, and the credentials for each.
+When `SPECTRUM_PROJECT_ID`/`SPECTRUM_PROJECT_SECRET`, `SPECTRUM_TELEGRAM_BOT_TOKEN`, or
+`SPECTRUM_WHATSAPP_BUSINESS_ACCESS_TOKEN`/`SPECTRUM_WHATSAPP_BUSINESS_PHONE_NUMBER_ID` are set,
+it offers to use them and keeps the values out of the config file. Onboarding then offers the
+standard DM policy and allowlist prompts. Named accounts are written under
+`channels.spectrum.accounts.<id>`.
+
+Non-interactive:
+
+```sh
+openclaw channels add spectrum \
+  --providers imessage,telegram \
+  --project-id "$SPECTRUM_PROJECT_ID" --project-secret "$SPECTRUM_PROJECT_SECRET" \
+  --telegram-bot-token "$TELEGRAM_BOT_TOKEN"
+```
+
+Other flags: `--whatsapp-access-token`, `--whatsapp-app-secret`, `--whatsapp-phone-number-id`.
+iMessage self-hosted clients and Slack tokens are configured by editing the config (below).
+Restart the Gateway afterwards: `openclaw gateway restart`.
+
 ## Configure
 
 Spectrum runs in two modes:

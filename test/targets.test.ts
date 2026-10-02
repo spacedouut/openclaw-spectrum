@@ -6,8 +6,8 @@ import {
   normalizeSpectrumSenderKey,
   normalizeSpectrumTarget,
   parseSpectrumTarget,
-  resolveSpaceChatType,
 } from "../src/targets.js";
+import { resolveSpaceChatType } from "../src/space-chat-type.js";
 
 describe("spectrum targets", () => {
   it("parses platform-prefixed space and user targets", () => {
