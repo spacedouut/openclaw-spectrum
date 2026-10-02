@@ -1,0 +1,85 @@
+{
+  "name": "openclaw-spectrum",
+  "version": "0.1.0",
+  "description": "OpenClaw channel plugin for Photon Spectrum (iMessage, Telegram, WhatsApp Business, and more)",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spacedouut/openclaw-spectrum.git"
+  },
+  "keywords": [
+    "openclaw",
+    "openclaw-plugin",
+    "spectrum",
+    "photon",
+    "imessage",
+    "telegram"
+  ],
+  "files": [
+    "dist/",
+    "src/",
+    "openclaw.plugin.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./setup-entry": "./dist/setup-entry.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "manifest": "npm run build && node scripts/sync-manifest.mjs",
+    "test": "vitest run",
+    "prepare": "tsc -p tsconfig.build.json"
+  },
+  "engines": {
+    "node": ">=24.16"
+  },
+  "dependencies": {
+    "spectrum-ts": "12.10.1",
+    "zod": "4.6.5"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.9.6"
+  },
+  "devDependencies": {
+    "@types/node": "24.13.6",
+    "openclaw": "2026.9.6",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11"
+  },
+  "openclaw": {
+    "extensions": [
+      "./src/index.ts"
+    ],
+    "runtimeExtensions": [
+      "./dist/index.js"
+    ],
+    "setupEntry": "./src/setup-entry.ts",
+    "runtimeSetupEntry": "./dist/setup-entry.js",
+    "channel": {
+      "id": "spectrum",
+      "label": "Photon Spectrum",
+      "selectionLabel": "Photon Spectrum (iMessage, Telegram, WhatsApp)",
+      "detailLabel": "Spectrum",
+      "docsPath": "/channels/spectrum",
+      "docsLabel": "spectrum",
+      "blurb": "iMessage, Telegram, and WhatsApp Business through Photon Spectrum.",
+      "aliases": [
+        "photon",
+        "photon-spectrum"
+      ],
+      "markdownCapable": true
+    },
+    "compat": {
+      "pluginApi": ">=2026.9.6",
+      "minGatewayVersion": "2026.9.6"
+    },
+    "build": {
+      "openclawVersion": "2026.9.6",
+      "pluginSdkVersion": "2026.9.6"
+    }
+  }
+}
