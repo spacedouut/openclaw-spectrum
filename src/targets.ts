@@ -122,7 +122,6 @@ export function resolveSpaceChatType(params: {
   switch (params.platform) {
     case "telegram":
     case "slack":
-    case "whatsapp_business":
       return inferSpectrumTargetChatType({
         platform: params.platform,
         kind: "space",

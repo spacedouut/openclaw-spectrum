@@ -56,6 +56,24 @@ describe("startSpectrumGatewayAccount", () => {
     expect(statuses.at(-1)).toMatchObject({ running: false, connected: false });
   });
 
+  it("stops without going ready when aborted while the app is starting", async () => {
+    const account = resolveSpectrumAccount({ cfg, env: {} });
+    const fake = createFakeApp();
+    const { ctx, abort, statuses } = createCtx(account);
+    const deps: SpectrumGatewayDeps = {
+      createApp: async () => {
+        abort.abort();
+        return fake.app;
+      },
+      getCore: () => ({}) as PluginRuntime,
+      handleInbound: vi.fn<SpectrumGatewayDeps["handleInbound"]>(async () => "dispatched"),
+    };
+    await startSpectrumGatewayAccount(ctx, deps);
+    expect(fake.stopped).toBe(1);
+    expect(getRunningSpectrumAccount("default")).toBeUndefined();
+    expect(statuses.map((s) => s.lifecycle)).toEqual(["starting", "stopped"]);
+  });
+
   it("refuses to start an unconfigured account", async () => {
     const account = resolveSpectrumAccount({ cfg: { channels: { spectrum: {} } }, env: {} });
     const { ctx } = createCtx(account);

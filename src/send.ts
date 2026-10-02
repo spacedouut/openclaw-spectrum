@@ -96,7 +96,10 @@ export async function loadSpectrumAttachment(
   });
 }
 
-/** Send text and media to a Spectrum space. Media is loaded before anything is sent. */
+/**
+ * Send text and media to a Spectrum space. Media is loaded before anything is sent; Spectrum
+ * delivers items sequentially (variadic `send` too), so a later failure leaves earlier items sent.
+ */
 export async function deliverToSpectrumSpace(params: {
   space: Space;
   text?: string;

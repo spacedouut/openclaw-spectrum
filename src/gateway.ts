@@ -52,6 +52,20 @@ export async function startSpectrumGatewayAccount(
   });
 
   const app = await deps.createApp(account);
+  if (ctx.abortSignal.aborted) {
+    await app.stop().catch((error: unknown) => {
+      log.error(`spectrum: stop failed for ${account.accountId}: ${errorMessage(error)}`);
+    });
+    ctx.setStatus({
+      ...ctx.getStatus(),
+      accountId: account.accountId,
+      running: false,
+      connected: false,
+      lifecycle: "stopped",
+      lastStopAt: Date.now(),
+    });
+    return;
+  }
   const entry: RunningSpectrumAccount = {
     accountId: account.accountId,
     app,

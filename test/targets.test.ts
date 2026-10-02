@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
+import type { Space } from "spectrum-ts";
 import {
   formatSpectrumTarget,
   inferSpectrumTargetChatType,
   normalizeSpectrumSenderKey,
   normalizeSpectrumTarget,
   parseSpectrumTarget,
+  resolveSpaceChatType,
 } from "../src/targets.js";
 
 describe("spectrum targets", () => {
@@ -52,5 +54,15 @@ describe("spectrum targets", () => {
     expect(inferSpectrumTargetChatType({ platform: "imessage", kind: "space", id: "any;+;chat1" })).toBe("group");
     expect(inferSpectrumTargetChatType({ platform: "slack", kind: "space", id: "C123" })).toBe("group");
     expect(inferSpectrumTargetChatType({ platform: "slack", kind: "user", id: "U1" })).toBe("direct");
+  });
+
+  it("classifies WhatsApp Business spaces by sender/space id", () => {
+    const space = (id: string) => ({ __platform: "whatsapp_business", id }) as unknown as Space;
+    expect(
+      resolveSpaceChatType({ platform: "whatsapp_business", space: space("1555"), senderId: "1555" }),
+    ).toBe("direct");
+    expect(
+      resolveSpaceChatType({ platform: "whatsapp_business", space: space("grp-1"), senderId: "1555" }),
+    ).toBe("group");
   });
 });
