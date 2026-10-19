@@ -19,6 +19,7 @@
   "files": [
     "dist/",
     "src/",
+    "assets/",
     "openclaw.plugin.json",
     "README.md",
     "LICENSE"
@@ -42,11 +43,11 @@
     "zod": "4.6.5"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.9.6"
+    "openclaw": ">=2026.10.4"
   },
   "devDependencies": {
     "@types/node": "24.13.6",
-    "openclaw": "2026.9.6",
+    "openclaw": "2026.10.4",
     "typescript": "5.9.3",
     "vitest": "4.1.11"
   },
@@ -156,12 +157,12 @@
       "configPromotion": "preserve-root"
     },
     "compat": {
-      "pluginApi": ">=2026.9.6",
-      "minGatewayVersion": "2026.9.6"
+      "pluginApi": ">=2026.10.4",
+      "minGatewayVersion": "2026.10.4"
     },
     "build": {
-      "openclawVersion": "2026.9.6",
-      "pluginSdkVersion": "2026.9.6"
+      "openclawVersion": "2026.10.4",
+      "pluginSdkVersion": "2026.10.4"
     }
   }
 }

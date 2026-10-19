@@ -12,7 +12,7 @@ through the Spectrum SDK (`spectrum-ts`), instead of a separate native integrati
 
 ## Install
 
-Requires OpenClaw `>= 2026.9.6` and Node `>= 24.16`.
+Requires OpenClaw `>= 2026.10.4` and Node `>= 24.16`.
 
 ```sh
 openclaw plugins install openclaw-spectrum
